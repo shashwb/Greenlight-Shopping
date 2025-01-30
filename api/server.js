@@ -2,21 +2,21 @@ import express from "express";
 import productsRouter from "./routes/products.js";
 import cors from "cors";
 
+// put PORT into environment variable
+const PORT = 5000;
 const app = express();
-const PORT = 3005;
 
-// Enable CORS for all routes
+/** middlewares */
 app.use(cors());
-
-// Middleware
 app.use(express.json());
 
-// Use the routes
-app.use("/products", productsRouter);
-
+/** healthcheck */
 app.get("/", (_req, res) => {
-  res.send("Hello from Express!");
+  res.send("Welcome to the Greenlight API");
 });
+
+// 'product' controller -> currently mocked
+app.use("/products", productsRouter);
 
 app.listen(PORT, () => {
   console.log(`Express server is running on port ${PORT}`);
