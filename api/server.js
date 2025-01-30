@@ -1,9 +1,10 @@
 import express from "express";
+import dotenv from "dotenv";
 import productsRouter from "./routes/products.js";
 import cors from "cors";
 
-// put PORT into environment variable
-const PORT = 5000;
+dotenv.config();
+const PORT = process.env.PORT || 5000;
 const app = express();
 
 /** middlewares */
