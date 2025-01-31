@@ -1,0 +1,58 @@
+version: "3.8"
+
+### Note: Production vs. Development + Developer Experience ###
+#   for DX we need to set up volume mounts to allow local changes
+#   in files to be reflected in container. Production / CICD can streamline this
+#   so that each container has a single source of truth and will be replaced
+#   with a brand new built container on each successful code update after PR review.
+
+services:
+  #db setup
+  mysql:
+    image: mysql:latest
+    container_name: mysql
+    restart: always
+    environment:
+      - MYSQL_ROOT_PASSWORD=password
+      - MYSQL_DATABASE=greenlight_app
+      - MYSQL_USER=admin
+      - MYSQL_PASSWORD=admin
+    ports:
+      - "3306:3306" #typcial port for mysql
+    volumes:
+      - mysql_data:/var/lib/mysql #map names volume to location in container
+
+  #backend/api setup (node.js/express)
+  backend:
+    build: ./api #built from Dockerfile
+    container_name: backend
+    volumes:
+      - ./api:/app
+      - /app/node_modules
+    restart: always
+    depends_on:
+      - mysql
+    ports:
+      # map port from host to container. 5000 on macos interferes w/ ctrl center
+      - "5001:5000"
+    environment:
+      - DATABASE_URL=mysql://admin:admin@mysql:3306/greenligh
+
+  #frontend setup (react/typscript/tailwindcss)
+  frontend:
+    build: ./client #built from Dockerfile
+    container_name: frontend
+    volumes:
+      - ./client:/app
+      - /app/node_modules # use container's node_modules, not host's (anonymous volume)
+    environment:
+      - CHOKIDAR_USEPOLLING=true
+    restart: always
+    depends_on:
+      - backend
+    ports:
+      - "3000:3000" #map port from host to container
+
+#create a named colume to persist data between docker container restarts/builds
+volumes:
+  mysql_data:
