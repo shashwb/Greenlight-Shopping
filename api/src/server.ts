@@ -1,6 +1,6 @@
 import express from "express";
 import dotenv from "dotenv";
-// import productsRouter from "./routes/products.js";
+import productsRouter from "./routes/products.ts";
 import cors from "cors";
 
 dotenv.config();
@@ -17,7 +17,7 @@ app.get("/", (_req, res) => {
 });
 
 // 'product' controller -> currently mocked
-// app.use("/products", productsRouter);
+app.use("/products", productsRouter);
 
 app.listen(PORT, () => {
   console.log(`Express server is running on port ${PORT}`);

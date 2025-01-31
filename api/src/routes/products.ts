@@ -2,8 +2,7 @@ import express from "express";
 import axios from "axios";
 
 const router = express.Router();
-const jsonServerUrl = "http://localhost:5000"; // Adjust if necessary
-import __mock__data from "../db/db.js";
+import __mock__data from "../db/db.ts";
 
 // Route to get all posts from JSON Server
 router.get("/", async (req, res) => {
