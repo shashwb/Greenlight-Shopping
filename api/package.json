@@ -3,12 +3,12 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
-  "type": "module",
+  "type": "commonjs",
   "scripts": {
-    "dev": "node server.js",
-    "dev:watch": "nodemon server.js",
+    "dev": "nodemon --exec ts-node src/server.ts",
+    "build": "tsc",
     "mock": "json-server --watch db/db.json --port 4000",
-    "start": "concurrently \"npm run dev:watch\" \"npm run mock\""
+    "start": "node dist/server.js"
   },
   "keywords": [],
   "author": "",
@@ -21,7 +21,17 @@
     "json-server": "^1.0.0-beta.2"
   },
   "devDependencies": {
+    "@types/react": "^18.3.3",
+    "eslint": "^8.57.0",
+    "@types/react-dom": "^18.3.0",
+    "@types/cors": "^2.8.17",
+    "@types/express": "^5.0.0",
+    "@types/node": "^22.12.0",
+    "postcss": "^8.4.40",
+    "tailwindcss": "^3.4.7",
     "concurrently": "^9.0.1",
-    "nodemon": "^3.1.7"
+    "nodemon": "^3.1.9",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.7.3"
   }
 }
