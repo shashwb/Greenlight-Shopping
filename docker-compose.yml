@@ -21,6 +21,7 @@ services:
       - "3306:3306" #typcial port for mysql
     volumes:
       - mysql_data:/var/lib/mysql #map names volume to location in container
+      - ./mysql-init:/docker-entrypoint-initdb.d
 
   #backend/api setup (node.js/express)
   backend:
@@ -36,7 +37,8 @@ services:
       # map port from host to container. 5000 on macos interferes w/ ctrl center
       - "4000:4000"
     environment:
-      - DATABASE_URL=mysql://admin:admin@mysql:3306/greenligh
+      - DATABASE_URL=mysql://admin:admin@mysql:3306/greenlight_app
+      - SHADOW_DATABASE_URL=mysql://admin:admin@mysql:3306/greenlight_app_shadow
 
   #frontend setup (react/typscript/tailwindcss)
   frontend:
