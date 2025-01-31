@@ -34,7 +34,7 @@ services:
       - mysql
     ports:
       # map port from host to container. 5000 on macos interferes w/ ctrl center
-      - "5001:5000"
+      - "4000:4000"
     environment:
       - DATABASE_URL=mysql://admin:admin@mysql:3306/greenligh
 

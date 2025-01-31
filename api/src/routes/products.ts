@@ -1,11 +1,13 @@
 import express from "express";
-import axios from "axios";
 
 const router = express.Router();
 import __mock__data from "../db/db.ts";
 
+console.log("inside the productsRouter!, __mock__data: ", __mock__data);
+
 // Route to get all posts from JSON Server
 router.get("/", async (req, res) => {
+  console.log("products => router!!!!!");
   try {
     /** mock reponse data for now  */
     const response = {
@@ -16,7 +18,7 @@ router.get("/", async (req, res) => {
     res.json(response.data);
   } catch (error) {
     console.error("Error fetching posts:", error);
-    res.status(500).send("Error fetching posts test");
+    res.status(500).send("Error fetching posts test DOES THIS SHOW UP?");
   }
 });
 
