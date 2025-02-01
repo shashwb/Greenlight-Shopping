@@ -2,7 +2,8 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import "./App.css";
 
-const BASE_API_URL = "http://localhost:5001";
+const BASE_API_URL = "http://localhost:4000";
+const TEST_CORS_URL = "http://localhost:4000/test-cors";
 
 /** what is a product? typescript wants to know  */
 interface Product {
@@ -19,9 +20,10 @@ const App = () => {
         const response: { data: Product[] } = await axios.get(
           `${BASE_API_URL}/products`
         );
+        console.log("/products response!", response);
         setProducts(response.data);
       } catch (error) {
-        console.error("Error fetching products:", error);
+        console.error("Error fetching product tests:", error);
       }
     };
 
