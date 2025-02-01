@@ -9,7 +9,9 @@
     "build": "tsc",
     "mock": "json-server --watch db/db.json --port 4000",
     "start": "node dist/server.js",
-    "prisma:seed": "ts-node prisma/seed.ts"
+    "seed": "yarn prisma migrate deploy && yarn ts-node prisma/seed.ts",
+    "seed:dev": "yarn prisma db push && yarn ts-node prisma/seed.ts",
+    "db:reset": "yarn prisma migrate reset && yarn seed"
   },
   "keywords": [],
   "author": "",

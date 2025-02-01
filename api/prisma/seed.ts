@@ -15,6 +15,10 @@ interface CharacteristicScore {
   [key: string]: number;
 }
 
+interface CharacteristicData {
+  name: string;
+}
+
 interface ProductData {
   name: string;
   price: number;
@@ -129,7 +133,14 @@ const main = async (): Promise<void> => {
     return;
   }
 
-  /** Seed Users
+  /** seed Characteristic */
+  await prisma.characteristic.createMany({
+    data: Object.keys(CHARACTERISTICS_SCORES).map((key) => ({
+      name: key,
+    })) as CharacteristicData[],
+  });
+
+  /** Seed User
    *  generate a bunch of user data, including the mock default user -- Seth Balodi */
   console.log("* Seeding users");
   const users: UserData[] = Array.from({ length: 10 }, () => generateUser());
@@ -140,14 +151,28 @@ const main = async (): Promise<void> => {
     highHorse: 250,
   });
   /** this creates many users? is this the right syntax? */
-  const createdUsers = await prisma.user.createMany({ data: users });
+  await prisma.user.createMany({ data: users });
 
   /** Seed Products */
   console.log("* Seeding products");
-  const products: ProductData[] = Array.from({ length: 50 }, () =>
+  const products: ProductData[] = Array.from({ length: 75 }, () =>
     generateProduct()
   );
-  const createdProducts = await prisma.product.createMany({ data: products });
+
+  // go through each product and create it into the db, ensuring the characteristics are associated
+  for (const product of products) {
+    const { characteristics, ...productData } = product;
+    await prisma.product.create({
+      data: {
+        ...productData,
+        characteristics: {
+          connect: characteristics.map((name) => ({ name })),
+        },
+      },
+    });
+  }
+
+  //   await prisma.product.createMany({ data: products });
 
   /** Seed Orders */
   console.log("* Seeding orders");
