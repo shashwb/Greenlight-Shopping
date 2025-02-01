@@ -5,12 +5,7 @@ import { faker } from "@faker-js/faker";
 
 const prisma = new PrismaClient();
 
-/** define interfaces for type safety
- * it's always good to generate interfaces for large objects which are going to be used
- * throughout a part of the application
- *
- * each of the models will have a corresponding interface
- */
+/** define interfaces for type safety **/
 interface CharacteristicScore {
   [key: string]: number;
 }

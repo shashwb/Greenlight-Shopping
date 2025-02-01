@@ -7,4 +7,9 @@ RUN yarn install
 
 COPY . .
 
-CMD ["yarn", "dev"]
+# ensure prisma client is generated
+RUN yarn prisma generate
+
+# run migrations, seed the db and then start the app
+CMD ["sh", "-c", "yarn prisma migrate deploy && yarn seed:dev && yarn dev"]
+# CMD ["yarn", "dev"]
