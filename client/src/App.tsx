@@ -3,9 +3,7 @@ import axios, { AxiosResponse } from "axios";
 import "./App.css";
 
 const BASE_API_URL = "http://localhost:4000";
-const TEST_CORS_URL = "http://localhost:4000/test-cors";
 
-/** what is a product? typescript wants to know  */
 interface Product {
   name: string;
   price: number;
