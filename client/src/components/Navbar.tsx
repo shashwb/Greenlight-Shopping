@@ -13,11 +13,7 @@ const Navbar = () => {
   if (!darkModeContext) return null;
 
   const logo = (
-    <div>
-      <div className="fascinate-inline-regular logo text-3xl text-bold ">
-        Greenlight
-      </div>
-    </div>
+    <div className="cool-font logo text-3xl text-bold ">Greenlight</div>
   );
 
   const actionsComponent = (
