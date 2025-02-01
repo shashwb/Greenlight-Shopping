@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import axios from "axios";
+import axios, { AxiosResponse } from "axios";
 import "./App.css";
 
 const BASE_API_URL = "http://localhost:4000";
@@ -8,6 +8,7 @@ const TEST_CORS_URL = "http://localhost:4000/test-cors";
 /** what is a product? typescript wants to know  */
 interface Product {
   name: string;
+  price: number;
   characteristics: string[];
 }
 
@@ -17,11 +18,11 @@ const App = () => {
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const response: { data: Product[] } = await axios.get(
+        // get everything...
+        const products: AxiosResponse<Product[]> = await axios.get(
           `${BASE_API_URL}/products`
         );
-        console.log("/products response!", response);
-        setProducts(response.data);
+        setProducts(products.data);
       } catch (error) {
         console.error("Error fetching product tests:", error);
       }
@@ -43,18 +44,25 @@ const App = () => {
         {
           // compiler is unable to infer the type of 'products'
           products &&
-            products.map((product: Product, index: number) => (
-              <div key={index} className="product-item">
-                <h3>{product.name}</h3>
-                {product.characteristics.map(
-                  (char: string, charIndex: number) => (
-                    <span key={charIndex} className="characteristic-tag">
-                      {char}
-                    </span>
-                  )
-                )}
-              </div>
-            ))
+            products.map((product: Product, index: number) => {
+              console.log("product", product, "index", index);
+              if (!product) {
+                return <></>;
+              }
+              return (
+                <div key={index} className="product-item">
+                  <h2>{product.name}</h2>
+                  <h4>{product.price}</h4>
+                  {/* {product.characteristics.map(
+                    (char: string, charIndex: number) => (
+                      <span key={charIndex} className="characteristic-tag">
+                        {char}
+                      </span>
+                    )
+                  )} */}
+                </div>
+              );
+            })
         }
       </div>
     </div>
