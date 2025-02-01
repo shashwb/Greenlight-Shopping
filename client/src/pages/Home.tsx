@@ -12,7 +12,7 @@ interface HomeProps {
 }
 const Home: React.FC<HomeProps> = ({ products }) => {
   const [currentPage, setCurrentPage] = useState(1);
-  const productsPerPage = 6;
+  const productsPerPage = 9;
 
   /** pagination business logic */
   const totalPages = Math.ceil(products.length / productsPerPage);

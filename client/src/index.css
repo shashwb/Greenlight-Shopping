@@ -97,8 +97,9 @@ p {
 }
 
 a:hover {
-  color: #2563eb; /* Tailwind blue-600 */
+  color: #4ab71b; /* Tailwind blue-600 */
   text-decoration: underline;
+  cursor: pointer;
 }
 
 /* Button Styles */
