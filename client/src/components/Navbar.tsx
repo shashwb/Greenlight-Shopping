@@ -1,4 +1,4 @@
-import react, { useContext } from "react";
+import { useContext } from "react";
 import { DarkModeContext } from "../DarkModeContext";
 
 /** components */
@@ -6,15 +6,19 @@ import DarkModeToggle from "./DarkModeToggle";
 
 /** styles */
 import "../styles/navbar.css";
-// import "@/styles/navbar.css";
 
 /** we need to be able to toggle dark mode from the navbar */
 const Navbar = () => {
   const darkModeContext = useContext(DarkModeContext);
-  // whats the point of this code?
-  if (!darkModeContext) {
-    return null;
-  }
+  if (!darkModeContext) return null;
+
+  const logo = (
+    <div>
+      <div className="fascinate-inline-regular logo text-3xl text-bold ">
+        Greenlight
+      </div>
+    </div>
+  );
 
   return (
     <>
@@ -23,13 +27,10 @@ const Navbar = () => {
         id="navbarContainer"
         className="flex justify-between p-4 bg-gray-200 shadow-md items-center justify-center text-center"
       >
-        {/* logo holder */}
-        <div>
-          <div className="fascinate-inline-regular logo text-3xl text-bold ">
-            Greenlight
-          </div>
-        </div>
-
+        {
+          /** logo holder */
+          logo
+        }
         {/* action holder */}
         <div className="flex gap-4">
           {/* toggle dark mode */}
