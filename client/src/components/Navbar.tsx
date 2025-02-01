@@ -25,9 +25,9 @@ const Navbar = () => {
       >
         {/* logo holder */}
         <div>
-          <h1 className="text-green-600 text-3xl text-bold bg-red-100">
+          <div className="fascinate-inline-regular logo text-3xl text-bold ">
             Greenlight
-          </h1>
+          </div>
         </div>
 
         {/* action holder */}

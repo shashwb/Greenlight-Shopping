@@ -9,9 +9,9 @@
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-}
+} */
 
-code {
+/* code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
 } */
@@ -76,11 +76,19 @@ h6 {
 
 .logo {
   font-weight: bolder;
-  font-size: 2rem;
+  font-size: 3rem;
+  font-family: "Trebuchet MS", "Lucida Sans Unicode", "Lucida Grande",
+    "Lucida Sans", Arial, Verdana, Geneva, Tahoma, sans-serif;
+}
+
+.fascinate-inline-regular {
+  font-family: "Fascinate Inline", serif;
+  font-weight: 400;
+  font-style: normal;
 }
 
 .dark .logo {
-  color: #22c55e;
+  /* color: #22c55e; */
 }
 
 p {
