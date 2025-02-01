@@ -5,8 +5,46 @@ import { faker } from "@faker-js/faker";
 
 const prisma = new PrismaClient();
 
-/** potentially ENUMS? */
-const CHARACTERISTICS_MAP: Record<string, number> = {
+/** define interfaces for type safety
+ * it's always good to generate interfaces for large objects which are going to be used
+ * throughout a part of the application
+ *
+ * each of the models will have a corresponding interface
+ */
+interface CharacteristicScore {
+  [key: string]: number;
+}
+
+interface ProductData {
+  id: number;
+  name: string;
+  price: number;
+  imageUrl: string;
+  description: string;
+  characteristics: string[];
+  sustainabuyScore: number;
+}
+
+interface UserData {
+  name: string;
+  email: string;
+  password: string;
+  highHorse: number;
+}
+
+// join table object
+interface OrderProductData {
+  productId: number;
+  quantity: number;
+}
+
+interface OrderData {
+  userId: number;
+  createdAt: Date;
+  items: OrderProductData[];
+}
+
+const CHARACTERISTICS_SCORES: CharacteristicScore = {
   "Plastic-Free": 2,
   Vegan: 1,
   "Locally Produced": 1,
@@ -17,6 +55,56 @@ const CHARACTERISTICS_MAP: Record<string, number> = {
 };
 
 const CHOOSE_RANDOM_CHARACTERISTICS: number = 4;
+
+/** helper functions */
+const generateUser = (): UserData => {
+  return {
+    name: faker.name.fullName(),
+    email: faker.internet.email(),
+    // NOTE:IMPORTANT: passwords should never be plaintext in an actual app (hashed and salted)
+    password: faker.internet.password(),
+    highHorse: faker.number.int({ min: 0, max: 500 }),
+  };
+};
+
+const generateProduct = (): ProductData => {
+  const randomCharacteristics: string[] = adequatelyRandomShuffle(
+    Object.keys(CHARACTERISTICS_SCORES),
+    CHOOSE_RANDOM_CHARACTERISTICS
+  );
+
+  /** reduce produces a single value */
+  const sustainabuyScore: number = randomCharacteristics.reduce(
+    (score, characteristic) =>
+      score + CHARACTERISTICS_SCORES[`${characteristic}` || 0],
+    0
+  );
+
+  return {
+    name: faker.commerce.productName(),
+    price: parseFloat(faker.commerce.price({ min: 3, max: 1000 })) as number,
+    imageUrl: faker.image.urlPicsumPhotos(),
+    description: faker.commerce.productDescription(),
+    characteristics: randomCharacteristics,
+    sustainabuyScore,
+  };
+};
+
+const generateOrder = (userId: number, products: ProductData[]): OrderData => {
+  return {
+    userId,
+    createdAt: faker.date.past(),
+    items: Array.from(
+      { length: faker.number.int({ min: 1, max: 20 }) },
+      (): OrderProductData => {
+        return {
+          productId: faker.helpers.arrayElement(products).id,
+          quantity: faker.number.int({ min: 1, max: 10 }),
+        };
+      }
+    ),
+  };
+};
 
 /** Helper::: randomly choose between 1 and 4 characteristics (it's good enough) */
 const adequatelyRandomShuffle = <T>(arr: T[], toChoose: number = 4): T[] => {
@@ -30,60 +118,73 @@ const adequatelyRandomShuffle = <T>(arr: T[], toChoose: number = 4): T[] => {
 const main = async (): Promise<void> => {
   console.log("...seeding the database w/ random data");
 
-  // ensure this is idempotent, if data already exists in the db, then return nothing
+  /** check if db is already seeded */
   const existingUsers = await prisma.user.findMany();
   if (existingUsers.length > 0) {
-    console.log("The database is already seeded. Skipping");
+    console.log("Database is already seeded -- skipping");
     return;
   }
 
-  console.log("* Seeding `User` table...");
-  await prisma.user.createMany({
-    // create 10 random users
-    data: Array.from({ length: 10 }).map(() => {
-      return {
-        name: faker.name.fullName(),
-        email: faker.internet.email(),
-        // NOTE:IMPORTANT: passwords should never be plaintext in an actual app (hashed and salted)
-        password: faker.internet.password(),
-        highHorse: faker.number.int({ min: 0, max: 500 }),
-      };
-    }),
-    /** we also need to create our mocked user, Seth Balodi */
+  /** Seed Users
+   *  generate a bunch of user data, including the mock default user -- Seth Balodi */
+  console.log("* Seeding users");
+  const users: UserData[] = Array.from({ length: 10 }, () => generateUser());
+  users.push({
+    name: "Seth Balodi",
+    email: "sethbalodi@gmail.com",
+    password: "password",
+    highHorse: 250,
   });
+  /** this creates many users? is this the right syntax? */
+  const createdUsers = await prisma.user.createMany({ data: users });
 
-  /** seed products */
-  console.log("* Seeding `Product` table");
-  await prisma.product.createMany({
-    data: Array.from({ length: 50 }).map(() => {
-      /** randomly get between 1 and 4 characteristics */
-      const randomCharacteristics: string[] = adequatelyRandomShuffle(
-        Object.keys(CHARACTERISTICS_MAP) as string[],
-        CHOOSE_RANDOM_CHARACTERISTICS as number
-      );
+  /** Seed Products */
+  console.log("* Seeding products");
+  const products: ProductData[] = Array.from({ length: 50 }, () =>
+    generateProduct()
+  );
+  const createdProducts = await prisma.product.createMany({ data: products });
 
-      /** reduce produces a single value */
-      const sustainabuyScore: number = randomCharacteristics.reduce(
-        (score, characteristic) =>
-          score + CHARACTERISTICS_MAP[`${characteristic}`],
-        0
-      );
+  /** Seed Orders */
+  console.log("* Seeding orders");
+  const allUsers = await prisma.user.findMany(); // get all the users
+  const allProducts = await prisma.product.findMany(); // get all the products
 
-      return {
-        name: faker.commerce.productName() as String,
-        price: parseFloat(
-          faker.commerce.price({ min: 3, max: 1000 })
-        ) as number,
-        imageUrl: faker.image.urlPicsumPhotos() as string,
-        description: faker.commerce.productDescription() as string,
-        characteristics: randomCharacteristics,
-        sustainabuyScore,
-      };
-    }),
-  });
+  /** go through all the users, and generate products for each one! */
 
-  console.log("* Seeding `Order` table");
-  for (let i = 0; i < 10; i++) {}
+  for (const user of allUsers) {
+    const numOrders = faker.number.int({ min: 1, max: 15 }); // random number of orders
+    const orders: OrderData[] = Array.from({ length: numOrders }, () =>
+      generateOrder(user.id, allProducts)
+    );
 
-  console.log("...database seeding complete!");
+    /** review this part! */
+    for (const order of orders) {
+      const createdOrder = await prisma.order.create({
+        data: {
+          userId: order.userId,
+          createdAt: order.createdAt,
+        },
+      });
+
+      await prisma.orderProduct.createMany({
+        data: order.items.map((item) => ({
+          orderId: createdOrder.id,
+          productId: item.productId,
+          quantity: item.quantity,
+        })),
+      });
+    }
+  }
+
+  console.log("*** Database seeding complete ***");
 };
+
+main()
+  .catch((e) => {
+    console.log("error!", e);
+    process.exit(1);
+  })
+  .finally(async () => {
+    await prisma.$disconnect();
+  });
