@@ -5,6 +5,7 @@ import cors from "cors";
 /** routers */
 import productsRouter from "./routes/products.ts";
 import usersRouter from "./routes/users.ts";
+import ordersRouter from "./routes/orders.ts";
 
 dotenv.config();
 const PORT = process.env.PORT || 4000;
@@ -26,6 +27,9 @@ app.use("/products", productsRouter);
 
 // 'user' controller
 app.use("/users", usersRouter);
+
+// 'orders' controller
+app.use("/orders", ordersRouter);
 
 app.listen(PORT, () => {
   console.log(`Express server is running on port ${PORT}`);
