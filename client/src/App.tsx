@@ -2,6 +2,8 @@ import { useEffect, useState } from "react";
 import axios, { AxiosResponse } from "axios";
 import "./App.css";
 
+/** context */
+
 const BASE_API_URL = "http://localhost:4000";
 
 interface Product {
