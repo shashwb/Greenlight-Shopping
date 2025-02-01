@@ -16,7 +16,6 @@ interface CharacteristicScore {
 }
 
 interface ProductData {
-  id: number;
   name: string;
   price: number;
   imageUrl: string;
@@ -90,15 +89,20 @@ const generateProduct = (): ProductData => {
   };
 };
 
-const generateOrder = (userId: number, products: ProductData[]): OrderData => {
+const generateOrder = (
+  userId: number,
+  products: { id: number }[]
+): OrderData => {
   return {
     userId,
     createdAt: faker.date.past(),
     items: Array.from(
       { length: faker.number.int({ min: 1, max: 20 }) },
       (): OrderProductData => {
+        // choose a random product
+        const randomProduct = faker.helpers.arrayElement(products);
         return {
-          productId: faker.helpers.arrayElement(products).id,
+          productId: randomProduct.id,
           quantity: faker.number.int({ min: 1, max: 10 }),
         };
       }
@@ -158,7 +162,9 @@ const main = async (): Promise<void> => {
       generateOrder(user.id, allProducts)
     );
 
-    /** review this part! */
+    /** for every order we create, we want to create a bunch of order products
+     *  which relates the the order to product which it contains (one to many)
+     */
     for (const order of orders) {
       const createdOrder = await prisma.order.create({
         data: {
