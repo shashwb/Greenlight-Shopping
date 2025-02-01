@@ -1,7 +1,10 @@
 import express from "express";
 import dotenv from "dotenv";
-import productsRouter from "./routes/products.ts";
 import cors from "cors";
+
+/** routers */
+import productsRouter from "./routes/products.ts";
+import usersRouter from "./routes/users.ts";
 
 dotenv.config();
 const PORT = process.env.PORT || 4000;
@@ -15,20 +18,14 @@ app.use(express.json());
 
 /** healthcheck */
 app.get("/", (_req, res) => {
-  res.send("Welcome to the Greenlight API");
+  res.status(200).send("Welcome to the Greenlight API");
 });
 
-app.get("/test-cors", (req, res) => {
-  console.log("TEST CORS TEST CORS TEST CORS");
-  res.send(
-    res.json({
-      message: "Test CORS",
-    })
-  );
-});
-
-// 'product' controller -> currently mocked
+// 'product' controller
 app.use("/products", productsRouter);
+
+// 'user' controller
+app.use("/users", usersRouter);
 
 app.listen(PORT, () => {
   console.log(`Express server is running on port ${PORT}`);
