@@ -22,6 +22,8 @@ const Navbar = () => {
 
   const actionsComponent = (
     <>
+      {/* persistent banner */}
+
       <div className="flex gap-4">
         {/* toggle dark mode */}
         <div className="flex items-center">
@@ -41,14 +43,21 @@ const Navbar = () => {
   );
 
   return (
-    <nav
-      id="navbarContainer"
-      className="flex justify-between p-2 px-6 bg-gray-200 shadow-md items-center justify-center text-center"
-    >
-      {logo}
-      {/* action holder */}
-      {actionsComponent}
-    </nav>
+    <>
+      <nav
+        id="navbarContainer"
+        className="flex justify-between p-2 px-6 bg-gray-200 shadow-md items-center justify-center text-center"
+      >
+        {logo}
+        {/* action holder */}
+        {actionsComponent}
+      </nav>
+      <div id="persistentBanner">
+        <div className="bg-green-100 dark:bg-green-900 p-4 text-center">
+          New! **Conscious Cart Mode** is here. Shop Sustainably
+        </div>
+      </div>
+    </>
   );
 };
 

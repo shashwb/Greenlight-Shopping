@@ -4,6 +4,7 @@ import "./App.css";
 
 /** components */
 import Navbar from "./components/Navbar";
+import Home from "./pages/Home";
 
 const BASE_API_URL = "http://localhost:4000";
 
@@ -31,8 +32,14 @@ const App = () => {
   }, []);
 
   return (
-    <div className="App">
+    // mx-auto max-w-7x
+    <div className="App flex flex-col min-h-screen w-full">
       <Navbar />
+
+      <div className="flex-grow w-full max-w-7xl mx-auto p-6 rounded-3xl">
+        <Home />
+      </div>
+
       <header className="header">
         <h1>Product Compass: test</h1>
       </header>
