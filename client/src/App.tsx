@@ -2,7 +2,8 @@ import { useEffect, useState } from "react";
 import axios, { AxiosResponse } from "axios";
 import "./App.css";
 
-/** context */
+/** components */
+import Navbar from "./components/Navbar";
 
 const BASE_API_URL = "http://localhost:4000";
 
@@ -17,9 +18,7 @@ const App = () => {
 
   useEffect(() => {
     const fetchProducts = async () => {
-      console.log("...fetchProducts", BASE_API_URL);
       try {
-        // get everything...
         const products: any = await axios.get(`${BASE_API_URL}/products`);
         console.log("products", products);
         setProducts(products.data);
@@ -33,6 +32,7 @@ const App = () => {
 
   return (
     <div className="App">
+      <Navbar />
       <header className="header">
         <h1>Product Compass: test</h1>
       </header>
