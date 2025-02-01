@@ -22,7 +22,6 @@ const App = () => {
     const fetchProducts = async () => {
       try {
         const products: any = await axios.get(`${BASE_API_URL}/products`);
-        console.log("products", products);
         setProducts(products.data);
       } catch (error) {
         console.error("Error fetching product tests:", error);
@@ -33,14 +32,11 @@ const App = () => {
   }, []);
 
   return (
-    // mx-auto max-w-7x
-    <div className="App bg-gray-100 dark:bg-gray-900  flex flex-col min-h-screen w-full">
+    <div className="App bg-gray-100 dark:bg-gray-900 flex flex-col min-h-screen w-full">
       <Navbar />
-
       <main className="flex-grow w-full max-w-7xl mx-auto p-6 rounded-3xl">
         <Home products={products} />
       </main>
-
       <Footer />
     </div>
   );

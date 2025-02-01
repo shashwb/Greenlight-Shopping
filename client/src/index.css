@@ -27,6 +27,8 @@
 
 html {
   scroll-behavior: smooth;
+  /* Smooth Dark Mode Transition */
+  transition: background-color 0.9s ease, color 0.9s ease;
 }
 
 body {
