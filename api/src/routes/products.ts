@@ -48,8 +48,6 @@ router.get("/", async (req, res) => {
       characteristics: product.characteristics.map((c: any) => c.name),
     }));
 
-    console.log("transformedCharts", transformedProducts);
-
     res.status(200).json(transformedProducts);
   } catch (error) {
     console.error("Error fetching posts:", error);
