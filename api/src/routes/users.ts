@@ -18,9 +18,10 @@ router.get("/", async (req: Request, res: Response) => {
     /** the email field is @unique */
     const user: User | null = await prisma.user.findUnique({
       where: {
-        email: "sethbalodi@gmail",
+        email: "sethbalodi@gmail.com",
       },
     });
+    console.log("user", user);
     if (!user) throw new Error("User not found");
     res.status(200).json(user);
   } catch (error) {
@@ -37,7 +38,7 @@ router.get("/orders", async (_req: Request, res: Response) => {
     /** get Seth Balodi user */
     const user: User | null = await prisma.user.findUnique({
       where: {
-        email: "sethbalodi@gmail",
+        email: "sethbalodi@gmail.com",
       },
     });
 

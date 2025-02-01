@@ -29,7 +29,7 @@ router.get("/", async (req, res) => {
  */
 router.get("/:id", async (req, res) => {
   try {
-    const { id } = req.query;
+    const { id } = req.params;
     if (!id || parseInt(id as string) < 0)
       throw new Error("Please submit a valid product id");
     const product: any = await prisma.product.findUnique({
