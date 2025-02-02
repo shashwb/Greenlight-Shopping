@@ -49,7 +49,7 @@ const Home: React.FC = () => {
         Trending Sustainable Products
       </h2>
 
-      <div className="grid grid-cols-3 gap-4 mx-3">
+      <div className="grid grid-cols-1 xs:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mx-3">
         {products &&
           products.map((product, index) => {
             return <ProductCard product={product} index={index} />;
