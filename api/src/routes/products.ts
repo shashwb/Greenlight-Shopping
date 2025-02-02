@@ -29,7 +29,7 @@ console.log("(Products) router has restarted!");
  */
 router.get("/", async (req, res) => {
   try {
-    const { characteristic, sort, page = 1, limit = 10 } = req.query;
+    const { characteristic, sort, page = 1, limit = 9 } = req.query;
 
     // get all products with their associated characteristic names
     const products: ProductsResponseQuery[] = await prisma.product.findMany({
@@ -40,7 +40,15 @@ router.get("/", async (req, res) => {
           },
         },
       },
+      take: Number(limit), // number of items per page
+      skip: (Number(page) - 1) * Number(limit), // offset
+      orderBy: {
+        id: "asc",
+      },
     });
+
+    // total products count
+    const totalProducts = await prisma.product.count();
 
     // Transform the products to return only characteristic names
     const transformedProducts: Product[] = products.map((product) => ({
@@ -48,7 +56,10 @@ router.get("/", async (req, res) => {
       characteristics: product.characteristics.map((c: any) => c.name),
     }));
 
-    res.status(200).json(transformedProducts);
+    res.status(200).json({
+      products: transformedProducts,
+      totalPages: Math.ceil(totalProducts / Number(limit)),
+    });
   } catch (error) {
     console.error("Error fetching posts:", error);
     res.status(500).send("Error fetching posts");
