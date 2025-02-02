@@ -5,7 +5,6 @@ import axios from "axios";
 import Pagination from "../components/Pagination";
 import ProductCard from "../components/ProductCard";
 import SearchBar from "../components/SearchBar";
-import Filter from "../components/Filter";
 
 const BASE_API_URL = "http://localhost:4000";
 
