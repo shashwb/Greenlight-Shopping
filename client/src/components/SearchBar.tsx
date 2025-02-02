@@ -114,12 +114,6 @@ const SearchBar: React.FC<SearchBarProps> = ({
         <button
           className="alt-main-font p-4 rounded-md hover:bg-green-700 dark:hover:bg-gray-600 bg-green-800 text-white dark:bg-gray-700 dark:text-white text-white"
           onClick={() => {
-            console.log(
-              "ON CLICK!, query",
-              query,
-              "selectedFilters",
-              selectedFilters
-            );
             onSearch(query, selectedFilters);
           }}
         >

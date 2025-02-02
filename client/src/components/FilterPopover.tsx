@@ -23,7 +23,6 @@ const FilterPopover: React.FC<FilterPopoverProps> = ({
   onApply,
 }) => {
   const [localFilters, setLocalFilters] = useState<string[]>(selectedFilters);
-  console.log("localFilters", localFilters);
 
   const toggleFilter = (char: string) => {
     setLocalFilters((prev) =>

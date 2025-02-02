@@ -31,8 +31,6 @@ router.get("/", async (req, res) => {
   try {
     const { filters, q, page = 1, limit = 9 } = req.query;
 
-    console.log("/ -> req.query", req.query);
-
     let parsedFilters: string[] = [];
     if (filters) {
       if (Array.isArray(filters)) {
@@ -112,7 +110,6 @@ router.get("/", async (req, res) => {
 router.get("/search", async (req, res) => {
   try {
     const { q } = req.query;
-    console.log("/search, what is q", q);
     if (!q) {
       throw new Error("Please submit a search query");
     }
@@ -137,7 +134,6 @@ router.get("/:id", async (req, res) => {
     const { id } = req.params;
     // Ensure the id is a positive integer
     const parsedId = parseInt(id as string, 10);
-    console.log("/:id", id, "parsedId", parsedId);
 
     if (isNaN(parsedId) || parsedId < 0) {
       throw new Error("Please submit a valid product id");

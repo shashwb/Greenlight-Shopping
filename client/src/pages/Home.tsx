@@ -45,13 +45,11 @@ const Home: React.FC = () => {
   const productsPerPage = 9;
 
   const handleClickSearchButton = (query: string, filters: string[]): void => {
-    console.log("*** hanndleClickSearchButton, query, filters", query, filters);
     setSearchQuery(query);
     setSelectedFilters(filters);
   };
 
   const fetchProducts = useCallback(async () => {
-    console.log("....fetcHProducts, currentPage, searchQuery, selectedFilters");
     try {
       const params = new URLSearchParams({
         page: String(currentPage),
@@ -64,9 +62,7 @@ const Home: React.FC = () => {
       });
 
       const apiURL = `${BASE_API_URL}/products?${params.toString()}`;
-      console.log("...apiURL", apiURL);
       const productsResponse: ProductAPIResponse = await axios.get(apiURL);
-      console.log("productsResponse", productsResponse);
       setProducts(productsResponse.data.products);
       setTotalPages(productsResponse.data.totalPages);
     } catch (error) {
