@@ -13,7 +13,7 @@ const Navbar = () => {
   if (!darkModeContext) return null;
 
   const logo = (
-    <div className="cool-font logo text-3xl text-bold ">Greenlight</div>
+    <div className="cool-font logo text-3xl text-bold ">GREENLIGHT</div>
   );
 
   const actionsComponent = (
@@ -38,7 +38,7 @@ const Navbar = () => {
 
   return (
     <>
-      <nav id="navbarContainer" className="bg-gray-200">
+      <nav id="navbarContainer" className="bg-gray-50">
         <div className="flex justify-between p-2 px-6 mx-8 items-center justify-center text-center">
           {logo}
           {actionsComponent}
@@ -47,7 +47,12 @@ const Navbar = () => {
       {/* persistent banner */}
       <div id="persistentBanner">
         <div className="alt-main-font text-lg bg-green-100 dark:bg-green-900 p-4 text-center">
-          New! **Conscious Cart Mode** is here. Shop Sustainably
+          <span className="underline text-xl font-bold text-green-900 dark:text-green-100">
+            New!
+          </span>
+          {"  "}
+          <b>"Conscious Cart Mode" </b>
+          is here. Shop Sustainably
         </div>
       </div>
     </>

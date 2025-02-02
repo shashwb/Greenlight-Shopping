@@ -30,18 +30,29 @@ const Home: React.FC = () => {
   const [products, setProducts] = useState<Product[]>([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
+
+  /** searchquery */
+  const [searchQuery, setSearchQuery] = useState<string>("");
+
   const productsPerPage = 9;
 
   const fetchProducts = useCallback(async () => {
     try {
-      const apiURL = `${BASE_API_URL}/products?page=${currentPage}&limit=${productsPerPage}`;
+      const params = new URLSearchParams({
+        page: String(currentPage),
+        q: searchQuery,
+        limit: productsPerPage.toString(),
+      });
+
+      const apiURL = `${BASE_API_URL}/products?${params.toString()}`;
+      console.log("...apiURL", apiURL);
       const productsResponse: ProductAPIResponse = await axios.get(apiURL);
       setProducts(productsResponse.data.products);
       setTotalPages(productsResponse.data.totalPages);
     } catch (error) {
       console.error("Error fetching product tests:", error);
     }
-  }, [currentPage]);
+  }, [currentPage, searchQuery]);
 
   useEffect(() => {
     fetchProducts();
@@ -49,7 +60,7 @@ const Home: React.FC = () => {
 
   return (
     <div className="">
-      <SearchBar onSearch={() => {}} />
+      <SearchBar onSearch={setSearchQuery} />
       {/* <Filter onFilterChange={() => {}} /> */}
 
       <h2 className="text-3xl font-bold my-4 text-gray-800 dark:text-white">

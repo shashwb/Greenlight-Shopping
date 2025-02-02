@@ -29,10 +29,64 @@ console.log("(Products) router has restarted!");
  */
 router.get("/", async (req, res) => {
   try {
-    const { characteristic, sort, page = 1, limit = 9 } = req.query;
+    const { q, page = 1, limit = 9 } = req.query;
+
+    console.log("/ -> req.query", req.query);
+
+    // const suggestions = await prisma.product.findMany({
+    //   where: { name: { contains: String(q), mode: "insensitive" } },
+    //   select: { name: true }, // Only return product names for autocomplete
+    //   take: 5, // Limit the number of suggestions
+    // });
 
     // get all products with their associated characteristic names
-    const products: ProductsResponseQuery[] = await prisma.product.findMany({
+    // const products: any = await prisma.product.findMany({
+    //   where: {
+    //     name: {
+    //       contains: String(q),
+    //       mode: "insensitive",
+    //     },
+    //   },
+    //   include: {
+    //     characteristics: {
+    //       select: {
+    //         name: {
+    //           where: {
+    //             name: {
+    //               contains: String(q),
+    //               mode: "insensitive",
+    //             },
+    //           },
+    //         },
+    //       },
+    //     },
+    //   },
+    //   take: Number(limit), // number of items per page
+    //   skip: (Number(page) - 1) * Number(limit), // offset
+    //   orderBy: {
+    //     id: "asc",
+    //   },
+    // });
+
+    const products: any = await prisma.product.findMany({
+      where: {
+        OR: [
+          {
+            name: {
+              contains: String(q),
+            },
+          },
+          {
+            characteristics: {
+              some: {
+                name: {
+                  contains: String(q),
+                },
+              },
+            },
+          },
+        ],
+      },
       include: {
         characteristics: {
           select: {
@@ -51,7 +105,7 @@ router.get("/", async (req, res) => {
     const totalProducts = await prisma.product.count();
 
     // Transform the products to return only characteristic names
-    const transformedProducts: Product[] = products.map((product) => ({
+    const transformedProducts: Product[] = products.map((product: Product) => ({
       ...product,
       characteristics: product.characteristics.map((c: any) => c.name),
     }));

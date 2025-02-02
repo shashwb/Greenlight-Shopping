@@ -81,7 +81,7 @@ const SearchBar = ({ onSearch }: { onSearch: (query: string) => void }) => {
   }, [query]);
 
   return (
-    <div className="relative w-full max-w-md mx-auto">
+    <div className="relative w-full max-w-md mx-auto mb-10 mt-3">
       <input
         type="text"
         value={query}
