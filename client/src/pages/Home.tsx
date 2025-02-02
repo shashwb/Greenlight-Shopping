@@ -1,7 +1,11 @@
 import React, { useState, useEffect, useCallback } from "react";
 import axios from "axios";
+
+/** components */
 import Pagination from "../components/Pagination";
 import ProductCard from "../components/ProductCard";
+import SearchBar from "../components/SearchBar";
+import Filter from "../components/Filter";
 
 const BASE_API_URL = "http://localhost:4000";
 
@@ -45,7 +49,9 @@ const Home: React.FC = () => {
 
   return (
     <div className="">
-      {/* SECTION: trending products */}
+      <SearchBar onSearch={() => {}} />
+      {/* <Filter onFilterChange={() => {}} /> */}
+
       <h2 className="text-3xl font-bold my-4 text-gray-800 dark:text-white">
         Trending Sustainable Products
       </h2>

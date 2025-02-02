@@ -46,8 +46,8 @@ body {
 
 /* focus styles */
 :focus-visible {
-  /* outline: 2px solid #38bdf8; */
-  outline: 2px solid #f83875;
+  outline: 1px solid rgb(22 101 52 / var(--tw-bg-opacity, 1));
+  /* outline: 2px solid #f83875; */
   outline-offset: 2px;
 }
 

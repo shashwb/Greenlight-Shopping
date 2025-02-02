@@ -66,16 +66,42 @@ router.get("/", async (req, res) => {
   }
 });
 
+/** GET SEARCH */
+router.get("/search", async (req, res) => {
+  try {
+    const { q } = req.query;
+    console.log("/search, what is q", q);
+    if (!q) {
+      throw new Error("Please submit a search query");
+    }
+    const suggestions = await prisma.product.findMany({
+      where: { name: { contains: String(q) } },
+      select: { name: true }, // Only return product names for autocomplete
+      take: 5, // Limit the number of suggestions
+    });
+
+    res.json(suggestions.map((product: any) => product.name));
+  } catch (error) {
+    console.log("Error searching products:", error);
+    res.status(500).send("Server Error: searching products");
+  }
+});
+
 /**
  * GET product/:id from a specific id
  */
 router.get("/:id", async (req, res) => {
   try {
     const { id } = req.params;
-    if (!id || parseInt(id as string) < 0)
+    // Ensure the id is a positive integer
+    const parsedId = parseInt(id as string, 10);
+    console.log("/:id", id, "parsedId", parsedId);
+
+    if (isNaN(parsedId) || parsedId < 0) {
       throw new Error("Please submit a valid product id");
-    const product: any = await prisma.product.findUnique({
-      where: { id: parseInt(id as string) },
+    }
+    const product = await prisma.product.findUnique({
+      where: { id: parsedId },
     });
     if (!product) res.status(404).send(`Product ${id} not found`);
     res.status(200).send(product);
