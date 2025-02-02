@@ -5,12 +5,13 @@ import ProductCard from "../components/ProductCard";
 
 const BASE_API_URL = "http://localhost:4000";
 
-interface Product {
+export interface Product {
   id: number;
   name: string;
   price: number;
   characteristics: string[];
   sustainabuyScore: number;
+  imageUrl: string;
 }
 
 interface ProductAPIResponse {

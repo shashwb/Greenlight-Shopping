@@ -46,7 +46,7 @@ const Navbar = () => {
       </nav>
       {/* persistent banner */}
       <div id="persistentBanner">
-        <div className="bg-green-100 dark:bg-green-900 p-4 text-center">
+        <div className="alt-main-font text-lg bg-green-100 dark:bg-green-900 p-4 text-center">
           New! **Conscious Cart Mode** is here. Shop Sustainably
         </div>
       </div>
