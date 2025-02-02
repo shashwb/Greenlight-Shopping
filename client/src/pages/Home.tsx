@@ -31,7 +31,7 @@ const Home: React.FC = () => {
   const [totalPages, setTotalPages] = useState(1);
 
   /** searchquery */
-  const [searchQuery, setSearchQuery] = useState<string>(" ");
+  const [searchQuery, setSearchQuery] = useState<string>("");
   const [selectedFilters, setSelectedFilters] = useState<string[]>([
     "Plastic-Free",
     "Vegan",
@@ -86,6 +86,8 @@ const Home: React.FC = () => {
       <h2 className="text-3xl font-bold my-4 text-gray-800 dark:text-white">
         Trending Sustainable Products
       </h2>
+
+      {/* return an error state when products is empty! */}
 
       <div className="grid grid-cols-1 xs:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mx-3">
         {products &&

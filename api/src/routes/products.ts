@@ -86,9 +86,39 @@ router.get("/", async (req, res) => {
       },
     });
 
-    // total products count
-    // const totalProducts = await prisma.product.count();
-    const totalProducts = products.length;
+    const totalProductsCount: number = await prisma.product.count({
+      where: {
+        AND: [
+          {
+            OR: [
+              {
+                name: {
+                  contains: String(q),
+                },
+              },
+              {
+                characteristics: {
+                  some: {
+                    name: {
+                      contains: String(q),
+                    },
+                  },
+                },
+              },
+            ],
+          },
+          {
+            characteristics: {
+              some: {
+                name: {
+                  in: parsedFilters, // Array of characteristic names
+                },
+              },
+            },
+          },
+        ],
+      },
+    });
 
     // Transform the products to return only characteristic names
     const transformedProducts: Product[] = products.map((product: Product) => ({
@@ -98,7 +128,7 @@ router.get("/", async (req, res) => {
 
     res.status(200).json({
       products: transformedProducts,
-      totalPages: Math.ceil(totalProducts / Number(limit)),
+      totalPages: Math.ceil(totalProductsCount / Number(limit)),
     });
   } catch (error) {
     console.error("Error fetching posts:", error);
