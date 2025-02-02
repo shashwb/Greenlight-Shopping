@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useCallback } from "react";
 import axios from "axios";
 import Pagination from "../components/Pagination";
+import ProductCard from "../components/ProductCard";
 
 const BASE_API_URL = "http://localhost:4000";
 
@@ -19,9 +20,6 @@ interface ProductAPIResponse {
   };
 }
 
-interface HomeProps {
-  products: Product[];
-}
 const Home: React.FC = () => {
   /** pagination state */
   const [products, setProducts] = useState<Product[]>([]);
@@ -30,12 +28,9 @@ const Home: React.FC = () => {
   const productsPerPage = 9;
 
   const fetchProducts = useCallback(async () => {
-    console.log("...fetchProducts has been run!");
     try {
       const apiURL = `${BASE_API_URL}/products?page=${currentPage}&limit=${productsPerPage}`;
-      console.log("API URL", apiURL);
       const productsResponse: ProductAPIResponse = await axios.get(apiURL);
-      console.log("productsResponse", productsResponse.data.products);
       setProducts(productsResponse.data.products);
       setTotalPages(productsResponse.data.totalPages);
     } catch (error) {
@@ -44,7 +39,6 @@ const Home: React.FC = () => {
   }, [currentPage]);
 
   useEffect(() => {
-    console.log("useeffect() :: currentPage", currentPage);
     fetchProducts();
   }, [currentPage, fetchProducts]);
 
@@ -58,21 +52,7 @@ const Home: React.FC = () => {
       <div className="grid grid-cols-3 gap-4 mx-3">
         {products &&
           products.map((product, index) => {
-            // console.log("product", product);
-            return (
-              <div
-                key={index}
-                className="bg-gray-300 dark:bg-gray-800 text-gray-100 shadow-sm p-4 rounded-md hover:shadow-md cursor-pointer"
-              >
-                <div className="alt-main-font text-xl font-bold text-gray-900 dark:text-gray-200">
-                  {product.name}
-                </div>
-                <p className="alt-main-font text-gray-800 dark:text-white text-sm">
-                  {product.characteristics.join(", ")}
-                </p>
-                <p>${product.price.toFixed(2)}</p>
-              </div>
-            );
+            return <ProductCard product={product} index={index} />;
           })}
       </div>
       <div className="my-6">
