@@ -25,7 +25,7 @@ const Home: React.FC<HomeProps> = ({ products }) => {
   return (
     <div className="">
       {/* SECTION: trending products */}
-      <h2 className="cool-font text-3xl font-bold my-4 text-gray-800 dark:text-white">
+      <h2 className="text-3xl font-bold my-4 text-gray-800 dark:text-white">
         Trending Sustainable Products
       </h2>
 
@@ -35,10 +35,14 @@ const Home: React.FC<HomeProps> = ({ products }) => {
           return (
             <div
               key={index}
-              className="bg-gray-300 text-gray-100 shadow-sm p-4 rounded-md hover:shadow-md cursor-pointer"
+              className="bg-gray-300 dark:bg-gray-800 text-gray-100 shadow-sm p-4 rounded-md hover:shadow-md cursor-pointer"
             >
-              <h3>{product.name}</h3>
-              <p>{product.characteristics.join(", ")}</p>
+              <div className="alt-main-font text-xl font-bold text-gray-900 dark:text-gray-200">
+                {product.name}
+              </div>
+              <p className="alt-main-font text-gray-800 dark:text-white">
+                {product.characteristics.join(", ")}
+              </p>
               <p>{product.price}</p>
             </div>
           );

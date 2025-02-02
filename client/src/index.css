@@ -65,6 +65,8 @@ h6 {
   font-weight: 600;
   color: #111827;
   /* color: #9e1d53; */
+  font-family: "playfair display", "Franklin Gothic Medium", "Arial Narrow",
+    Arial, sans-serif;
 }
 
 .dark h1,
@@ -74,6 +76,7 @@ h6 {
 .dark h5,
 .dark h6 {
   color: #f9fafb;
+  font-family: "playfair display", serif;
 }
 
 .logo {
@@ -87,6 +90,10 @@ h6 {
   font-family: "Fascinate Inline", serif;
   font-weight: 400;
   font-style: normal;
+}
+
+.alt-main-font {
+  font-family: "playfair display", "Franklin Gothic Medium", "Arial Narrow";
 }
 
 .dark .logo {
