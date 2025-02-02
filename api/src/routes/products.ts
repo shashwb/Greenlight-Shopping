@@ -33,41 +33,6 @@ router.get("/", async (req, res) => {
 
     console.log("/ -> req.query", req.query);
 
-    // const suggestions = await prisma.product.findMany({
-    //   where: { name: { contains: String(q), mode: "insensitive" } },
-    //   select: { name: true }, // Only return product names for autocomplete
-    //   take: 5, // Limit the number of suggestions
-    // });
-
-    // get all products with their associated characteristic names
-    // const products: any = await prisma.product.findMany({
-    //   where: {
-    //     name: {
-    //       contains: String(q),
-    //       mode: "insensitive",
-    //     },
-    //   },
-    //   include: {
-    //     characteristics: {
-    //       select: {
-    //         name: {
-    //           where: {
-    //             name: {
-    //               contains: String(q),
-    //               mode: "insensitive",
-    //             },
-    //           },
-    //         },
-    //       },
-    //     },
-    //   },
-    //   take: Number(limit), // number of items per page
-    //   skip: (Number(page) - 1) * Number(limit), // offset
-    //   orderBy: {
-    //     id: "asc",
-    //   },
-    // });
-
     const products: any = await prisma.product.findMany({
       where: {
         OR: [
