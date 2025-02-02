@@ -8,9 +8,12 @@ import Footer from "./components/Footer";
 import Home from "./pages/Home";
 
 interface Product {
+  id: string;
   name: string;
   price: number;
   characteristics: string[];
+  imageUrl: string;
+  sustainabuyScore: number;
 }
 
 const App = () => {

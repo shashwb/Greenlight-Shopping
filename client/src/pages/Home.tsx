@@ -5,7 +5,7 @@ import ProductCard from "../components/ProductCard";
 
 const BASE_API_URL = "http://localhost:4000";
 
-export interface Product {
+interface Product {
   id: number;
   name: string;
   price: number;
