@@ -31,11 +31,27 @@ const Home: React.FC = () => {
   const [totalPages, setTotalPages] = useState(1);
 
   /** searchquery */
-  const [searchQuery, setSearchQuery] = useState<string>("");
+  const [searchQuery, setSearchQuery] = useState<string>(" ");
+  const [selectedFilters, setSelectedFilters] = useState<string[]>([
+    "Plastic-Free",
+    "Vegan",
+    "Locally Produced",
+    "Humane",
+    "Healthy",
+    "Wasteful",
+    "Unhealthy",
+  ]);
 
   const productsPerPage = 9;
 
+  const handleClickSearchButton = (query: string, filters: string[]): void => {
+    console.log("*** hanndleClickSearchButton, query, filters", query, filters);
+    setSearchQuery(query);
+    setSelectedFilters(filters);
+  };
+
   const fetchProducts = useCallback(async () => {
+    console.log("....fetcHProducts, currentPage, searchQuery, selectedFilters");
     try {
       const params = new URLSearchParams({
         page: String(currentPage),
@@ -43,15 +59,20 @@ const Home: React.FC = () => {
         limit: productsPerPage.toString(),
       });
 
+      selectedFilters.forEach((filter) => {
+        params.append("filters", filter);
+      });
+
       const apiURL = `${BASE_API_URL}/products?${params.toString()}`;
       console.log("...apiURL", apiURL);
       const productsResponse: ProductAPIResponse = await axios.get(apiURL);
+      console.log("productsResponse", productsResponse);
       setProducts(productsResponse.data.products);
       setTotalPages(productsResponse.data.totalPages);
     } catch (error) {
       console.error("Error fetching product tests:", error);
     }
-  }, [currentPage, searchQuery]);
+  }, [currentPage, searchQuery, selectedFilters]);
 
   useEffect(() => {
     fetchProducts();
@@ -59,7 +80,11 @@ const Home: React.FC = () => {
 
   return (
     <div className="">
-      <SearchBar onSearch={setSearchQuery} />
+      <SearchBar
+        onSearch={handleClickSearchButton}
+        selectedFilters={selectedFilters}
+        setSelectedFilters={setSelectedFilters}
+      />
       {/* <Filter onFilterChange={() => {}} /> */}
 
       <h2 className="text-3xl font-bold my-4 text-gray-800 dark:text-white">

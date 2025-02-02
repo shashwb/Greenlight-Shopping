@@ -46,7 +46,7 @@ const Navbar = () => {
       </nav>
       {/* persistent banner */}
       <div id="persistentBanner">
-        <div className="alt-main-font text-lg bg-green-100 dark:bg-green-900 p-4 text-center">
+        <div className="alt-main-font text-lg bg-green-200 dark:bg-green-900 p-4 text-center">
           <span className="underline text-xl font-bold text-green-900 dark:text-green-100">
             New!
           </span>

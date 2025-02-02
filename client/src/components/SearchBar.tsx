@@ -11,14 +11,20 @@ import "../styles/searchbar.css";
 const BASE_API_URL = "http://localhost:4000";
 
 type SearchBarProps = {
-  onSearch: (query: string) => void;
+  onSearch: (query: string, filters: string[]) => void;
+  selectedFilters: string[];
+  setSelectedFilters: (filters: string[]) => void;
 };
 
-const SearchBar: React.FC<SearchBarProps> = ({ onSearch }) => {
+const SearchBar: React.FC<SearchBarProps> = ({
+  onSearch,
+  selectedFilters,
+  setSelectedFilters,
+}) => {
   const [query, setQuery] = useState("");
   const [suggestions, setSuggestions] = useState<string[]>([]);
   const [showSuggestions, setShowSuggestions] = useState(false);
-  const [selectedFilters, setSelectedFilters] = useState<string[]>([]);
+
   const [isFilterOpen, setIsFilterOpen] = useState(false);
 
   const darkModeContext = useContext(DarkModeContext);
@@ -46,8 +52,14 @@ const SearchBar: React.FC<SearchBarProps> = ({ onSearch }) => {
     return () => clearTimeout(debounceTimer);
   }, [query]);
 
+  const handleEnter = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "Enter") {
+      onSearch(query, selectedFilters);
+    }
+  };
+
   return (
-    <div className="relative w-full max-w-3xl mx-auto mb-10 mt-3">
+    <div className="flex flex-col relative w-full max-w-4xl mx-auto mb-10 mt-3">
       <div className="flex gap-2">
         <input
           type="text"
@@ -56,6 +68,7 @@ const SearchBar: React.FC<SearchBarProps> = ({ onSearch }) => {
           onChange={(e) => setQuery(e.target.value)}
           onFocus={() => setShowSuggestions(true)}
           onBlur={() => setTimeout(() => setShowSuggestions(false), 200)}
+          onKeyDown={handleEnter}
           className="border p-2 rounded w-full dark:bg-gray-800 dark:text-white"
         />
         <div className="relative">
@@ -92,7 +105,7 @@ const SearchBar: React.FC<SearchBarProps> = ({ onSearch }) => {
                 setSelectedFilters={setSelectedFilters}
                 onApply={() => {
                   setIsFilterOpen(false);
-                  onSearch(query);
+                  //   onSearch(query, filter);
                 }}
               />
             </div>
@@ -100,7 +113,15 @@ const SearchBar: React.FC<SearchBarProps> = ({ onSearch }) => {
         </div>
         <button
           className="alt-main-font p-4 rounded-md hover:bg-green-700 dark:hover:bg-gray-600 bg-green-800 text-white dark:bg-gray-700 dark:text-white text-white"
-          onClick={() => onSearch(query)}
+          onClick={() => {
+            console.log(
+              "ON CLICK!, query",
+              query,
+              "selectedFilters",
+              selectedFilters
+            );
+            onSearch(query, selectedFilters);
+          }}
         >
           <span>Search</span>
         </button>
@@ -119,14 +140,14 @@ const SearchBar: React.FC<SearchBarProps> = ({ onSearch }) => {
         ))}
       </div>
       {showSuggestions && suggestions.length > 0 && (
-        <ul className="absolute w-full bg-white dark:bg-gray-900 border rounded mt-1 shadow-lg z-10">
+        <ul className=" w-full bg-white dark:bg-gray-900 border rounded mt-1 shadow-lg z-10">
           {suggestions.map((suggestion, index) => (
             <li
               key={index}
               className="p-2 cursor-pointer hover:bg-gray-200 dark:hover:bg-gray-700"
               onMouseDown={() => {
                 setQuery(suggestion);
-                onSearch(suggestion);
+                onSearch(suggestion, selectedFilters);
               }}
             >
               {suggestion}

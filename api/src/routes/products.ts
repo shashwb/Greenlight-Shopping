@@ -29,23 +29,45 @@ console.log("(Products) router has restarted!");
  */
 router.get("/", async (req, res) => {
   try {
-    const { q, page = 1, limit = 9 } = req.query;
+    const { filters, q, page = 1, limit = 9 } = req.query;
 
     console.log("/ -> req.query", req.query);
 
+    let parsedFilters: string[] = [];
+    if (filters) {
+      if (Array.isArray(filters)) {
+        parsedFilters = filters.map((filter) => String(filter));
+      } else {
+        parsedFilters = [String(filters)];
+      }
+    }
+
     const products: any = await prisma.product.findMany({
       where: {
-        OR: [
+        AND: [
           {
-            name: {
-              contains: String(q),
-            },
+            OR: [
+              {
+                name: {
+                  contains: String(q),
+                },
+              },
+              {
+                characteristics: {
+                  some: {
+                    name: {
+                      contains: String(q),
+                    },
+                  },
+                },
+              },
+            ],
           },
           {
             characteristics: {
               some: {
                 name: {
-                  contains: String(q),
+                  in: parsedFilters, // Array of characteristic names
                 },
               },
             },
@@ -67,7 +89,8 @@ router.get("/", async (req, res) => {
     });
 
     // total products count
-    const totalProducts = await prisma.product.count();
+    // const totalProducts = await prisma.product.count();
+    const totalProducts = products.length;
 
     // Transform the products to return only characteristic names
     const transformedProducts: Product[] = products.map((product: Product) => ({
