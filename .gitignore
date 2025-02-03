@@ -1,210 +1,52 @@
-
-# Node.js dependencies
+# Dependencies
 node_modules/
+.yarn-cache/
 
-# TypeScript compiler output
+# Compiled output
 dist/
+build/
+*.tsbuildinfo
 
-# Docker build artifacts
-docker-compose.yml
-Dockerfile
+# Logs
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Environment variables
+.env
+.env.local
+.env.*.local
 
 # IDE settings
 .vscode/
 .idea/
-
-# Log files
-logs/
-*.log
+*.sublime-*
 
 # OS files
 .DS_Store
 Thumbs.db
 
-# Yarn cache
-.yarn-cache/
+# Test coverage
+coverage/
 
-# npm cache
-npm-debug.log
-package-lock.json
-
-# TypeScript config
-tsconfig.json
-
-# Docker volumes
-docker-compose.override.yml
-docker-compose.yml
-
-# Environment variables
-.env
-.env.example
-
-# API keys and credentials
-api_keys.json
-credentials.json
-
-# Miscellaneous
+# Temporary files
 *.tmp
 *.bak
 *.swp
-*.swo
-*.swn
-*.swo
-*.swx
-*.swz
-*.swp
-*.swo
-*.swx
-*.swz
-*.swb
-*.swl
-*.swm
-*.swp
-*.swx
-*.swz
-*.swb
-*.swl
-*.swm
-*.swp
-*.swx
-*.swz
-*.swb
-*.swl
-*.swm
-*.swp
-*.swx
-*.swz
-*.swb
-*.swl
-*.swm
-*.swp
-*.swx
-*.swz
-*.swb
-*.swl
-*.swm
-*.swp
-*.swx
-*.swz
-*.swb
-*.swl
-*.swm
-*.swp
-*.swx
-*.swz
-*.swb
-*.swl
-*.swm
-*.swp
-*.swx
-*.swz
-*.swb
-*.swl
-*.swm
-*.swp
-*.swx
-*.swz
-*.swb
-*.swl
-*.swm
-*.swp
-*.swx
-*.swz
-*.swb
-*.swl
-*.swm
-*.swp
-*.swx
-*.swz
-*.swb
-*.swl
-*.swm
-*.swp
-*.swx
-*.swz
-*.swb
-*.swl
-*.swm
-*.swp
-*.swx
-*.swz
-*.swb
-*.swl
-*.swm
-*.swp
-*.swx
-*.swz
-*.swb
-*.swl
-*.swm
-*.swp
-*.swx
-*.swz
-*.swb
-*.swl
-*.swm
-*.swp
-*.swx
-*.swz
-*.swb
-*.swl
-*.swm
-*.swp
-*.swx
-*.swz
-*.swb
-*.swl
-*.swm
-*.swp
-*.swx
-*.swz
-*.swb
-*.swl
-*.swm
-*.swp
-*.swx
-*.swz
-*.swb
-*.swl
-*.swm
-*.swp
-*.swx
-*.swz
-*.swb
-*.swl
-*.swm
-*.swp
-*.swx
-*.swz
-*.swb
-*.swl
-*.swm
-*.swp
-*.swx
-*.swz
-*.swb
-*.swl
-*.swm
-*.swp
-*.swx
-*.swz
-*.swb
-*.swl
-*.swm
-*.swp
-*.swx
-*.swz
-*.swb
-*.swl
-*.swm
-*.swp
-*.swx
-*.swz
-*.swb
-*.swl
-*.swm
-*.swp
-*.swx
-*.swz
-*.swb
-*.swl
+
+# Docker volumes
+docker-volumes/
+
+# TypeScript
+# Uncomment the next line if you don't want to track your tsconfig
+# tsconfig.json
+
+# Misc
+.cache/
+.npm/
+
+# Keep these files (add ! to track them even if they match above patterns)
+!.gitignore
+!.env.example

@@ -54,7 +54,7 @@ docker-compose up --build
 #### Expected Containers:
 
 ```
-backend docker-entrypoint.sh yarn dev Up 0.0.0.0:5001->5000/tcp
+backend docker-entrypoint.sh yarn dev Up 0.0.0.0:4000->4000/tcp
 frontend docker-entrypoint.sh yarn dev Up 0.0.0.0:3000->3000/tcp
 mysql docker-entrypoint.sh mysqld Up 0.0.0.0:3306->3306/tcp
 ```
@@ -76,31 +76,6 @@ This creates:
 Users (mocked accounts, including Seth Balodi).
 Products (randomized with Faker).
 Orders (historical purchases for analytics).
-```
-
-#### Running Locally (Without Docker)
-
-Start MySQL
-bash
-
-```
-docker run --name mysql -e MYSQL_ROOT_PASSWORD=password -e MYSQL_DATABASE=greenlight_app -p 3306:3306 -d mysql
-```
-
-#### Start Backend
-
-```
-cd api
-yarn install
-yarn dev
-```
-
-#### Start Frontend
-
-```
-cd client
-yarn install
-yarn dev
 ```
 
 ### 📌 API Endpoints
