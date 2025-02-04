@@ -51,6 +51,14 @@ This will start the backend, frontend, and MySQL database.
 docker-compose up --build
 ```
 
+or if this fails, please build using the following steps
+
+```
+docker-compose down -v
+docker-compose build --no-cache
+docker-compose up
+```
+
 #### Expected Containers:
 
 ```
@@ -59,9 +67,12 @@ frontend docker-entrypoint.sh yarn dev Up 0.0.0.0:3000->3000/tcp
 mysql docker-entrypoint.sh mysqld Up 0.0.0.0:3306->3306/tcp
 ```
 
+#### Expected Containers:
+
 #### Database Setup & Seeding
 
 By default, Docker Compose runs database migrations & seeding.
+###YOU DO NOT HAVE TO RUN THE FOLLOWING SCRIPTS, THE DB SHOULD BE SEEDED AUTOMATICALLY###
 
 To manually seed the database:
 
